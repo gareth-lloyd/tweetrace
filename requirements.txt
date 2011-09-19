@@ -1,9 +1,10 @@
+mysql-python==1.2.3
 django
 tweepy
-../twistedstream
-oauth
-twisted
 pyOpenSSL
-mysql-python==1.2.3
+twisted
+oauth
+https://github.com/gareth-lloyd/twistedstream/tarball/master
 requests
 ipython
+fabric
