@@ -1,0 +1,22 @@
+{
+  "run_list": ["main::default", "main::python", "main::tweetrace", "main::nginx"],
+  "base_packages": ["git-core", "vim"],
+  "ubuntu_python_packages": ["python-setuptools", "python-pip"],
+  "pip_python_packages": {"virtualenv": "1.5.1"},
+
+  "users": {
+    "tweetrace": {
+      "id": 2000,
+      "full_name": "tweetrace User",
+      "key": "%s"
+    }
+  },
+
+  "groups": {
+    "tweetrace": {
+      "gid": 2000,
+      "members": ["tweetrace"]
+    }
+  }
+}
+
