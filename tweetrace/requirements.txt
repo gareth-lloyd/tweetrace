@@ -1,0 +1,9 @@
+django
+tweepy
+../twistedstream
+oauth
+twisted
+pyOpenSSL
+mysql-python==1.2.3
+requests
+ipython
