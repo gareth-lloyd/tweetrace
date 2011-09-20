@@ -1,7 +1,7 @@
-execute "sudo pip install virtualenv" do
-  user "root"
-  action :run
-end
+#execute "sudo pip install virtualenv" do
+#  user "root"
+#  action :run
+#end
 
 # create a home for the project code
 %w{projects projects/tweetrace projects/tweetrace/srv}.each do |dir|
@@ -21,12 +21,6 @@ execute "virtualenv --no-site-packages tweetrace-venv" do
   creates "/home/tweetrace/projects/tweetrace/tweetrace-venv/bin/python"
 end
 
-execute "/home/tweetrace/projects/tweetrace/tweetrace-venv/bin/pip install -r requirements.txt" do
-  cwd "/home/tweetrace/projects/tweetrace/srv"
-  user "root"
-  action :run
-end
-
 # grab from repo
 git "/home/tweetrace/projects/tweetrace/srv" do
   repository "git@github.com:gareth-lloyd/tweetrace.git"
@@ -34,5 +28,11 @@ git "/home/tweetrace/projects/tweetrace/srv" do
   user "tweetrace"
   group "tweetrace"
   action :sync
+end
+
+execute "/home/tweetrace/projects/tweetrace/tweetrace-venv/bin/pip install -r requirements.txt" do
+  cwd "/home/tweetrace/projects/tweetrace/srv/"
+  user "tweetrace"
+  action :run
 end
 

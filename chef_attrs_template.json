@@ -1,6 +1,6 @@
 {
-  "run_list": ["main::default", "main::python", "main::tweetrace", "main::nginx"],
-  "base_packages": ["git-core", "vim"],
+  "run_list": ["main::default", "main::python", "main::tweetrace"],
+  "base_packages": ["git-core", "vim", "mysql-server"],
   "ubuntu_python_packages": ["python-setuptools", "python-pip"],
   "pip_python_packages": {"virtualenv": "1.5.1"},
 

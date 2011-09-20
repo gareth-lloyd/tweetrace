@@ -16,6 +16,7 @@ env.chef_dir = '/var/chef'
 env.local_chef_dir = './chef'
 
 def install_chef():
+    sudo('apt-get install rubygems', pty=True)
     sudo('gem install chef', pty=True)
 
 def sync_config():
@@ -34,6 +35,7 @@ def sync_config():
 
 def update():
     sync_config()
+    sudo('echo $PATH')
     sudo('chef-solo -c %s/solo.rb' % env.chef_dir)
 
 def create_chef_attrs():
