@@ -1,4 +1,5 @@
 from django.db import models
+from picklefield import PickledObjectField
 
 
 class TwitterUser(models.Model):
@@ -22,3 +23,4 @@ class Mention(models.Model):
     tweeter = models.ForeignKey(TwitterUser)
     is_targeted = models.BooleanField()
     is_retweet = models.BooleanField()
+    result_from_twitter = PickledObjectField(null=True, blank=True)

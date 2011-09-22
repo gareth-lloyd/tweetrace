@@ -25,30 +25,50 @@ def do_watch():
     d.addCallback(started)
     d.addErrback(log.err)
 
-def link_from_obj(status):
-    if status['entities']:
-        if status['entities']['urls']:
-            for url in status['entities']['urls']:
-                original = url['url']
-                expanded = url['expanded_url']
-                if 'justgiving' in original:
-                    return original
-                if 'justgiving' in expanded:
-                    return expanded
-    # twitter hasn't detected any urls
-    m = LINK_PATTERN.search(status['text'])
-    if m:
-        return m.group(0)
+def link_from_entities(status):
+    if 'entities' not in status:
+        print 'no entities for ', status['text']
+        return None
+    entities = status['entities']
+    if 'urls' in entities and entities['urls']:
+        for url in status['entities']['urls']:
+            original = url['url']
+            expanded = url['expanded_url']
+            if 'justgiving' in original:
+                return original
+            if 'justgiving' in expanded:
+                return expanded
+    print 'NO JG URLS IN ENTITIES: ', entities
     return None
+
+def link_search(status):
+    match = LINK_PATTERN.search(status['text'])
+    if match:
+        return match.group(0)
+    return None
+
+def link_from_obj(status):
+    link = link_from_entities(status)
+    if not link:
+        # twitter hasn't detected any urls, so search manually
+        link = link_search(status)
+
+    if not link and 'retweeted_status' in status:
+        # this may be a retweet, in which case we may have matched the justgiving
+        # link in the original rather the retweet
+        original_status = status['retweeted_status']
+        link = link_from_entities(original_status)
+        if not link:
+            link = link_search(original_status)
+
+    return link
 
 class LinkReceiver(object):
     def __init__(self):
         self.reconnects = 0
 
     def status(self, json_obj):
-        start = datetime.now()
         try:
-            print 'status'
             just_giving_link = link_from_obj(json_obj)
             if not just_giving_link:
                 print 'no just giving link in', json_obj['text']
@@ -69,8 +89,8 @@ class LinkReceiver(object):
                 text=status.text,
                 tweeter=user,
                 is_targeted=status.text.startswith('@'),
-                is_retweet=status.retweeted)
-            time_taken = datetime.now() - start
+                is_retweet=status.retweeted,
+                result_from_twitter=json_obj)
             print time_taken
         except Exception, e:
             print 'Exception', e
