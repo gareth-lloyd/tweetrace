@@ -1,7 +1,7 @@
 {
   "run_list": ["main::default", "main::python", "main::tweetrace"],
-  "base_packages": ["git-core", "vim", "mysql-server"],
-  "ubuntu_python_packages": ["python-setuptools", "python-pip"],
+  "base_packages": ["git-core", "vim", "mysql-server", "libmysqlclient-dev"],
+  "ubuntu_python_packages": ["python-setuptools", "python-pip", "python-dev"],
   "pip_python_packages": {"virtualenv": "1.5.1"},
 
   "users": {

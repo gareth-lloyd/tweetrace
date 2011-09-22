@@ -8,3 +8,4 @@ https://github.com/gareth-lloyd/twistedstream/tarball/master
 requests
 ipython
 fabric
+django-picklefield

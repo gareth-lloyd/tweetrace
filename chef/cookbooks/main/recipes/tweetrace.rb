@@ -36,3 +36,28 @@ execute "/home/tweetrace/projects/tweetrace/tweetrace-venv/bin/pip install -r re
   action :run
 end
 
+directory "/var/bluepill" do
+  owner "tweetrace"
+  group "tweetrace"
+  mode "0755"
+  action :create
+end
+
+gem_package "bluepill" do
+  action :install
+end
+
+template "/srv/conversocial/solr.pill" do
+  source "solr.pill"
+end
+
+# Get Solr into Bluepill
+execute "bluepill_load" do
+  command "bluepill load /srv/conversocial/solr.pill"
+  action :run
+end
+
+execute "bluepill_restart" do
+  command "bluepill solr restart"
+  action :run
+end
