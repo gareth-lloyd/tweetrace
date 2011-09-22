@@ -1,5 +1,7 @@
 import requests
 from xml.dom import minidom
+from lxml import etree
+import StringIO
 
 from django.conf import settings
 
@@ -20,8 +22,25 @@ class JustGivingAPIException(Exception):
         return 'Unknown error'
 
 class FundraisingPage(object):
-    grand_total_raised
+    pass
 
+def parse2(content):
+        dom = minidom.parseString(content)
+        total = dom.getElementsByTagName(
+            'grandTotalRaisedExcludingGiftAid')[0].childNodes[0].wholeText
+        percent = dom.getElementsByTagName(
+            'totalRaisedPercentageOfFundraisingTarget')[0].childNodes[0].wholeText
+
+def element_to_kv(element):
+    if len(element) == 0:
+        return (element.tag, element.text)
+    else:
+        return (element.tag, dict([element_to_kv(el) for el in element]))
+
+def parse(content):
+    f = StringIO.StringIO(content)
+    doc = etree.parse(f).getroot()
+    return dict((element_to_kv(element) for element in doc))
 
 def _jg_url(method):
     if settings.JUSTGIVING_LIVE:
@@ -33,11 +52,6 @@ def retrieve_funds_raised(id):
     url = _jg_url('fundraising/pages/' + id)
     r  = requests.get(url, headers=REQ_HEADERS)
     if r.status_code == 200:
-        dom = minidom.parseString(content_f)
-        total = dom.getElementsByTagName(
-            'grandTotalRaisedExcludingGiftAid')[0].childNodes[0].wholeText
-        percent = dom.getElementsByTagName(
-            'totalRaisedPercentageOfFundraisingTarget')[0].childNodes[0].wholeText
-        return int(total), float(percent)
+        return parse(r.content)
     else:
         raise JustGivingAPIException(code=r.status_code)

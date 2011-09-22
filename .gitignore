@@ -2,4 +2,5 @@ tweetrace/local_settings.py
 keys/tweetrace_deploy
 local.properties
 *.pyc
+*.swp
 chef/node.json
