@@ -9,3 +9,5 @@ requests
 ipython
 fabric
 django-picklefield
+South
+gunicorn

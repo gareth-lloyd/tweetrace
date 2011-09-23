@@ -4,25 +4,23 @@
 #end
 
 # create a home for the project code
-%w{projects projects/tweetrace projects/tweetrace/srv}.each do |dir|
-  directory "/home/tweetrace/#{dir}" do
-    mode 0775
-    owner "tweetrace"
-    group "tweetrace"
-    action :create
-  end
+directory "/srv" do
+  mode 0775
+  owner "tweetrace"
+  group "tweetrace"
+  action :create
 end
 
 # Install everything into a virtualenv
 execute "virtualenv --no-site-packages tweetrace-venv" do
-  cwd "/home/tweetrace/projects/tweetrace/"
+  cwd "/srv"
   action :run
   user node[:users][:tweetrace][:id]
-  creates "/home/tweetrace/projects/tweetrace/tweetrace-venv/bin/python"
+  creates "/srv/tweetrace-venv/bin/python"
 end
 
 # grab from repo
-git "/home/tweetrace/projects/tweetrace/srv" do
+git "/srv/tweetrace" do
   repository "git@github.com:gareth-lloyd/tweetrace.git"
   revision "HEAD"
   user "tweetrace"
@@ -30,8 +28,8 @@ git "/home/tweetrace/projects/tweetrace/srv" do
   action :sync
 end
 
-execute "/home/tweetrace/projects/tweetrace/tweetrace-venv/bin/pip install -r requirements.txt" do
-  cwd "/home/tweetrace/projects/tweetrace/srv/"
+execute "/srv/tweetrace-venv/bin/pip install -r requirements.txt" do
+  cwd "/srv/tweetrace"
   user "tweetrace"
   action :run
 end
@@ -47,17 +45,37 @@ gem_package "bluepill" do
   action :install
 end
 
-template "/srv/conversocial/solr.pill" do
-  source "solr.pill"
+template "/srv/tweetrace/linkwatch.pill" do
+  source "linkwatch.pill"
+  mode 0755
+  owner "tweetrace"
+  group "tweetrace"
 end
 
-# Get Solr into Bluepill
+
 execute "bluepill_load" do
-  command "bluepill load /srv/conversocial/solr.pill"
+  command "bluepill load /srv/tweetrace/linkwatch.pill"
   action :run
 end
 
 execute "bluepill_restart" do
-  command "bluepill solr restart"
+  command "bluepill linkwatch restart"
+  action :run
+end
+
+template "/srv/tweetrace/gunicorn.pill" do
+  source "gunicorn.pill"
+  mode 0755
+  owner "tweetrace"
+  group "tweetrace"
+end
+
+execute "bluepill_load" do
+  command "bluepill load /srv/tweetrace/gunicorn.pill"
+  action :run
+end
+
+execute "bluepill_restart" do
+  command "bluepill gunicorn restart"
   action :run
 end

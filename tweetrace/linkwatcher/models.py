@@ -24,3 +24,11 @@ class Mention(models.Model):
     is_targeted = models.BooleanField()
     is_retweet = models.BooleanField()
     result_from_twitter = PickledObjectField(null=True, blank=True)
+
+class FundRaisingPageStats(models.Model):
+    page_name = models.CharField(max_length=300, unique=True)
+
+    facebook_likes = models.IntegerField(blank=True, null=True)
+    facebook_shares = models.IntegerField(blank=True, null=True)
+    facebook_comments = models.IntegerField(blank=True, null=True)
+    last_facebook_check = models.DateTimeField(blank=True, null=True)

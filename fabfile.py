@@ -15,9 +15,14 @@ env.hosts = [config.get('remote_host', 'host')]
 env.chef_dir = '/var/chef'
 env.local_chef_dir = './chef'
 
-def install_chef():
+def bootstrap_instance():
+    sudo('apt-get install ruby ruby1.8-dev build-essential', pty=True)
     sudo('apt-get install rubygems', pty=True)
     sudo('gem install chef', pty=True)
+
+def update():
+    sync_config()
+    sudo('chef-solo -c %s/solo.rb' % env.chef_dir)
 
 def sync_config():
     # create /var/chef if not already existing
@@ -33,11 +38,6 @@ def sync_config():
     with lcd('chef'):
         rsync_project(env.chef_dir, '.')
 
-def update():
-    sync_config()
-    sudo('echo $PATH')
-    sudo('chef-solo -c %s/solo.rb' % env.chef_dir)
-
 def create_chef_attrs():
     with open('keys/tweetrace_deploy', 'r') as priv_key:
         key = priv_key.read().strip()
@@ -46,3 +46,4 @@ def create_chef_attrs():
         attrs = attrs_template.read() % key
     with open(env.local_chef_dir + '/node.json', 'w') as output:
         output.write(attrs)
+

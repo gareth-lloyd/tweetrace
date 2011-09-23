@@ -1,0 +1,8 @@
+Bluepill.application("linkwatch", :log_file => "/var/log/bluepill.log") do |app|
+  app.process("linkwatch") do |process|
+    process.start_command = "/srv/tweetrace-venv/bin/python manage.py watch"
+    process.pid_file = "/tmp/linkwatch.pid"
+    process.working_dir = "/srv/tweetrace"
+    process.daemonize = true
+  end
+end

@@ -1,0 +1,9 @@
+Bluepill.application("gunicorn", :log_file => "/var/log/bluepill.log") do |app|
+    app.process("gunicorn_server") do |process|
+        process.start_command = "/srv/tweetrace-venv/bin/gunicorn_django -c gunicorn_config.py"
+        process.restart_command = "kill -HUP {{PID}}"
+        process.pid_file = "/tmp/gunicorn.pid"
+        process.working_dir = "/srv/tweetrace/tweetrace"
+        process.daemonize = true
+    end
+end

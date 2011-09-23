@@ -8,7 +8,7 @@ from oauth import oauth
 from twisted.internet import reactor
 from twisted.python import log
 
-from linkwatcher.models import Mention, TwitterUser
+from linkwatcher.models import Mention, TwitterUser, FundRaisingPageStats
 
 LINK_PATTERN = re.compile(r"\b(w*\.?justgiving\.com/[^ ]+)", flags=re.IGNORECASE|re.MULTILINE)
 JUST_GIVING_TRACK = ['justgiving']
@@ -32,8 +32,10 @@ def link_from_entities(status):
     entities = status['entities']
     if 'urls' in entities and entities['urls']:
         for url in status['entities']['urls']:
-            original = url['url']
+            original = url['url'].lower()
             expanded = url['expanded_url']
+            if expanded:
+                expanded = expanded.lower()
             if 'justgiving' in original:
                 return original
             if 'justgiving' in expanded:
@@ -91,7 +93,6 @@ class LinkReceiver(object):
                 is_targeted=status.text.startswith('@'),
                 is_retweet=status.retweeted,
                 result_from_twitter=json_obj)
-            print time_taken
         except Exception, e:
             print 'Exception', e
 
