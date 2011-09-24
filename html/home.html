@@ -1,18 +1,18 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Just Giving Thanks - {Charity}’s Supporters</title>
         <link type="text/css" rel="stylesheet" href="core.css" />
         <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
         <script type="text/javascript">
-            require(['twitter'],function(twitter){
-                
-            });
+                define('twitter:data',{'url':'justgivingthanks/feeder','getData':{'name':'{bob}','tag':'#lol'}});
+            require(['twitter'],function(twitter){});
         </script>
     </head>
     <body>
         <header>
             <h1>{Charity}’s Supporters</h1>
-
+            <img src="charity-badge.png" height="120px" width="120px" />
         </header>
         <div id="content">
             <navigation>
@@ -46,24 +46,34 @@
             
             <section id="supporters">
                 <h2>My Supporters</h2>
-                <ul>
-                    <li>
+                <article>
+                    <img src="bob.jpg" width="40px" height="40px" />
+                    <div class="bio">
                         <h3>Bob</h3>
                         <p>Bob info/popularity</p>
-                    </li>
-                    <li>
+                    </div>
+                </article>
+                <article>
+                    <img src="bob.jpg" width="40px" height="40px" />
+                    <div class="bio">
                         <h3>Jeff</h3>
                         <p>Jeff info/popularity</p>
-                    </li>
-                    <li>
+                    </div>
+                </article>
+                <article>
+                    <img src="bob.jpg" width="40px" height="40px" />
+                    <div class="bio">
                         <h3>Mary</h3>
                         <p>Mary info/popularity</p>
-                    </li>
-                    <li>
+                    </div>
+                </article>
+                <article>
+                    <img src="bob.jpg" width="40px" height="40px" />
+                    <div class="bio">
                         <h3>Jane</h3>
                         <p>Jane info/popularity</p>
-                    </li>
-                </ul>
+                    </div>
+                </article>
             </section>
         </div>
     </body>
