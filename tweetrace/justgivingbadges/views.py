@@ -22,10 +22,17 @@ def _user_from_reg_form(form):
             email=email)
 
 def _profile_from_reg_form(form, user):
-    return FundRaiserProfile.objects.create(
-            user=user,
+    profile, created = FundRaiserProfile.objects.get_or_create(
             jg_page_id=form.cleaned_data['jg_page'],
+            defaults={user: user}
         )
+    if not created:
+        if profile.user is None:
+            profile.user = user
+            profile.save()
+        else:
+            raise ValueError
+    return profile
 
 def home(request):
     top_pages = []
@@ -39,16 +46,18 @@ def register(request):
         if form.is_valid():
             # partially create user, and store unauthed token
             user = _user_from_reg_form(form)
-            profile = _profile_from_reg_form(form, user)
-            request.session['user_id'] = user.pk
+            try:
+                profile = _profile_from_reg_form(form, user)
+            except ValueError:
+                return HttpResponse('that page is already registered')
 
+            request.session['user_id'] = user.pk
             handler = OAuthHandler(settings.TWITTER_CONSUMER_KEY,
                     settings.TWITTER_CONSUMER_SECRET, 
                     callback='http://www.justgivingthanks.com/callback/',
                     secure=True)
             auth_url = handler.get_authorization_url()
             request.session['unauthed_token'] = handler.request_token.to_string()
-
             print 'created user, got token, redirecting to %s' % (auth_url)
             return HttpResponseRedirect(auth_url)
     else:
@@ -59,12 +68,6 @@ def register(request):
             context_instance=RequestContext(request))
 
 def callback(request):
-    print 'DEBUGGING TWITTER REDIRECT'
-    print 'GET', request.GET
-    print 'SESSION', request.session
-    print 'COOKIES', request.COOKIES
-    print 
-
     unauthed_token = request.session.get('unauthed_token', None)
     if not unauthed_token:
         return HttpResponse("No un-authed token cookie")
