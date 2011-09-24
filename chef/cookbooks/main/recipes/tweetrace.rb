@@ -53,15 +53,15 @@ template "/srv/tweetrace/linkwatch.pill" do
 end
 
 
-execute "bluepill_load" do
-  command "bluepill load /srv/tweetrace/linkwatch.pill"
-  action :run
-end
-
-execute "bluepill_restart" do
-  command "bluepill linkwatch restart"
-  action :run
-end
+#execute "bluepill_load" do
+#  command "bluepill load /srv/tweetrace/linkwatch.pill"
+#  action :run
+#end
+#
+#execute "bluepill_restart" do
+#  command "bluepill linkwatch restart"
+#  action :run
+#end
 
 template "/srv/tweetrace/gunicorn.pill" do
   source "gunicorn.pill"
@@ -70,12 +70,12 @@ template "/srv/tweetrace/gunicorn.pill" do
   group "tweetrace"
 end
 
-execute "bluepill_load" do
-  command "bluepill load /srv/tweetrace/gunicorn.pill"
-  action :run
-end
-
-execute "bluepill_restart" do
-  command "bluepill gunicorn restart"
-  action :run
-end
+#execute "bluepill_load" do
+#  command "bluepill load /srv/tweetrace/gunicorn.pill"
+#  action :run
+#end
+#
+#execute "bluepill_restart" do
+#  command "bluepill gunicorn restart"
+#  action :run
+#end

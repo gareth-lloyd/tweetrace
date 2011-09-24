@@ -1,6 +1,7 @@
 import httplib, time, datetime
 from oauth import oauth
 import json
+from tweepy.auth import OAuthHandler
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -9,15 +10,11 @@ from django.contrib.auth.models import User
 
 from django.core.urlresolvers import reverse
 
-from justgivingbadges.twitter_utils import (get_unauthorised_request_token, 
-        exchange_request_token_for_access_token, get_authorisation_url)
 from justgivingbadges.forms import FundRaiserRegistration
 from justgivingbadges.models import FundRaiserProfile
 
 from django.conf import settings
 
-CONSUMER = oauth.OAuthConsumer(settings.TWITTER_CONSUMER_KEY,
-            settings.TWITTER_CONSUMER_SECRET)
 CONNECTION = httplib.HTTPSConnection(getattr(settings, 'OAUTH_SERVER', 'twitter.com'))
 
 def _user_from_reg_form(form):
@@ -41,11 +38,12 @@ def register(request):
             profile = _profile_from_reg_form(form, user)
             request.session['user_id'] = user.pk
 
-            token = get_unauthorised_request_token(CONSUMER, CONNECTION)
-            request.session['unauthed_token'] = token.to_string()
+            handler = OAuthHandler(settings.TWITTER_CONSUMER_KEY,
+                       settings.TWITTER_CONSUMER_SECRET, callback='http://www.justgivingthanks.com/callback/')
+            auth_url = handler.get_authorization_url()
+            request.session['unauthed_token'] = handler.request_token.to_string()
 
-            auth_url = get_authorisation_url(CONSUMER, token)
-            print 'created user, got token %s, redirecting to %s' % (token, auth_url)
+            print 'created user, got token, redirecting to %s' % (auth_url)
             return HttpResponseRedirect(auth_url)
     else:
         form = FundRaiserRegistration() # An unbound form
@@ -55,6 +53,12 @@ def register(request):
             context_instance=RequestContext(request))
 
 def callback(request):
+    print 'DEBUGGING TWITTER REDIRECT'
+    print 'GET', request.GET
+    print 'SESSION', request.session
+    print 'COOKIES', request.COOKIES
+    print 
+
     unauthed_token = request.session.get('unauthed_token', None)
     if not unauthed_token:
         return HttpResponse("No un-authed token cookie")
@@ -62,7 +66,9 @@ def callback(request):
     if token.key != request.GET.get('oauth_token', 'no-token'):
         return HttpResponse("Something went wrong! Tokens do not match")
     verifier = request.GET.get('oauth_verifier')
-    access_token = exchange_request_token_for_access_token(CONSUMER, token, params={'oauth_verifier':verifier})
+    handler = OAuthHandler(settings.TWITTER_CONSUMER_KEY,
+               settings.TWITTER_CONSUMER_SECRET)
+    access_token = handler.get_access_token(verifier)
 
     # save token against user
     user = User.objects.get(id=request.session['user_id'])
@@ -73,3 +79,11 @@ def callback(request):
     return render_to_response('success.html',
             {'form': form},
             context_instance=RequestContext(request))
+
+def temp(request):
+    if request.session.get('temp', None):
+        return HttpResponse('found')
+    else:
+        request.session['temp'] = True
+        return HttpResponse('not found')
+
