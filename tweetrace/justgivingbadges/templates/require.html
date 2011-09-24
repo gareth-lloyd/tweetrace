@@ -1,0 +1,18 @@
+{% extends /base.html %}
+
+{% block require %}
+
+{% if variable $}
+    <script type="text/javascript">
+        require('{{ variable }}', function({{ variable }}){});
+    </script>
+{% endif %}
+
+{% if other_variable %}
+    <script type="text/javascript">
+        require('{{ variable }}', function({{ variable }}){});
+        define('some:info', {{ object }});
+    </script>
+{% endif %}
+
+{% endblock %}

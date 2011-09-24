@@ -2,13 +2,16 @@
 <head>
     <title>{% block head_title %}JustGivingThanks{% endblock %}</title>
     <link rel="stylesheet" href="{{ STATIC_URL }}main.css" />
-    <script src="{{ STATIC_URL }}js/lib/lib.js" type="text/javascript"></script>
-
+    <script data-main="{{ STATIC_URL }}scripts/main" src="{{ STATIC_URL }}scripts/require-jquery.js"></script>
+    {% block require %}
+    {% endblock %}
 </head>
 <body>
-    <h1> Just Giving Badges </h1>
-    <div id="wrapper">
-
+    <header>
+        <h1> Just Giving Badges </h1>
+    </header>
+    <div id="content">
+        
         <div id="messages">
             {% if messages %}
                 <ul>
@@ -18,7 +21,28 @@
                 </ul>
             {% endif %}
         </div>
-
+        {% block navigation %}
+            
+        {% endblock %}
+        
+        {% block latest %}
+            <section id="latest">
+                <h2>Latest News</h2>
+            </section>
+        {% endblock %}
+        
+        {% block badge %}
+            <section id="badge">
+                <h2>Get a badge</h2>
+            </section>
+        {% endblock %}
+        
+        {% block supporters %}
+            <section id="supporters">
+                <h2>Supporters</h2>
+            </section>
+        {% endblock %}
+        
         {% block content %}
             Welcome to Just Giving Badges
         {% endblock %}
