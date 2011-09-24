@@ -7,7 +7,17 @@
 
   <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <dl>
+        <dt><label for="id_email">Your email address:</label></dt>
+        <dd><input type="text" name="email" id="id_email" /></dd>
+        
+        <dt><label for="id_jg_page">Your JustGiving Page:</label></dt>
+        <dd><input type="text" name="jg_page" id="id_jg_page" /></dd>
+        
+        <dt><label for="id_jg_password">Your JustGiving Password:</label></dt>
+        <dd><input type="password" name="jg_password" id="id_jg_password" /></dd>
+    </dl>
+    
     <input type="submit" value="Connect with Twitter" />
   </form>
 {% endblock %}
