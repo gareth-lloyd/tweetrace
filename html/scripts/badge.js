@@ -1,20 +1,22 @@
 define(['jquery'],function($){
-    /**
-     * Attach events
-     */
     init = function(){
         $('#badge').click(function(e){
             e.preventDefault;
             badge.toggleForm();
         });
+        
+        $('#just-give').submit(function(e){
+            e.preventDefault();
+            badge.submit();
+        });
     };
     
-    /**
-     * All badge actions
-     */
     badge = {
         toggleForm : function(){
             $('#just-giving').fadeToggle();
+        },
+        submit : function(){
+            alert('submit your moneys');
         }
     };
     

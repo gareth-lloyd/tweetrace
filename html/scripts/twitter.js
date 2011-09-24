@@ -1,17 +1,18 @@
-define(['jquery', 'core'], function($, core){
+define(['jquery', 'core', 'mustache', 'twitter:data'], function($, core, mustache, data){
     init = function(){
-        
+        console.log(data);
     };
     
     twitter = {
         controller : {
-            getFeed : function(){
-                
+            getFeed : function(feedname){
+                feed = core.ajax(data.url, data.getData, twitter.view.updateFeed);
+                twitter.view.updateFeed(feed);
             }
         },
         
         view : {
-            updateFeed : function(){
+            updateFeed : function(feed){
                 
             }
         }
