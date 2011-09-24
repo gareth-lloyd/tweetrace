@@ -1,4 +1,5 @@
 import httplib, time, datetime
+import hashlib
 from oauth import oauth
 import json
 from tweepy.auth import OAuthHandler
@@ -18,10 +19,11 @@ from django.conf import settings
 CONNECTION = httplib.HTTPSConnection(getattr(settings, 'OAUTH_SERVER', 'twitter.com'))
 
 def _user_from_reg_form(form):
+    email = form.cleaned_data['email']
     return User.objects.create_user(
-            form.cleaned_data['username'],
+            hashlib.md5(email).hexdigest()[:16],
             password=form.cleaned_data['jg_password'],
-            email=form.cleaned_data['email'])
+            email=email)
 
 def _profile_from_reg_form(form, user):
     return FundRaiserProfile.objects.create(
