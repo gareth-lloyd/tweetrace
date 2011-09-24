@@ -1,8 +1,8 @@
-define(['jquery'],function($){
+define(['jquery', 'fundraiser_id:sdi_data'],function($, fundraiserData){
     init = function(){
         $('#badge').click(function(e){
             e.preventDefault;
-            badge.toggleForm();
+            badge.toggle_form();
         });
         
         $('#just-give').submit(function(e){
@@ -12,10 +12,11 @@ define(['jquery'],function($){
     };
     
     badge = {
-        toggleForm : function(){
+        toggle_form : function(){
             $('#just-giving').fadeToggle();
         },
         submit : function(){
+            
             alert('submit your moneys');
         }
     };

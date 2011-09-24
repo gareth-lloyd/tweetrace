@@ -1,145 +1,25 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-.button {
-  font-family: helvetica;
-}
-h1 {
-  color: #FFF;
-  font-size: 1.8em;
-  font-weight: bold;
-  padding: 0.4em 0.6em;
-  text-shadow: 0.1em 0.1em #04F;
-}
-h2 {
-  color: #000;
-  font-size: 1.4em;
-  font-weight: bold;
-  padding: 0.2em 0;
-}
-body {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#00ffff), to(#ffffff));
-  background: -webkit-linear-gradient(top, #ffffff, #00ffff);
-  background: -moz-linear-gradient(top, #ffffff, #00ffff);
-  background: -ms-linear-gradient(top, #ffffff, #00ffff);
-  background: -o-linear-gradient(top, #ffffff, #00ffff);
-  font-family: helvetica;
-}
-body#button {
-  background: none;
-}
-#content {
-  background: #ffffff;
-  margin: 0 auto;
-  width: 90%;
-}
-header {
-  background: #0088ff;
-  margin: 0 auto;
-  position: relative;
-  width: 90%;
-}
-header img {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-}
-navigation {
-  display: block;
-}
-navigation item a {
-  background: #444;
-  color: #F9F9F9;
-  display: inline-block;
-  font-size: 1.2em;
-  padding: 0.4em;
-  text-decoration: none;
-  border-bottom-right-radius: 0.2em;
-  -moz-border-bottom-right-radius: 0.2em;
-  border-bottom-left-radius: 0.2em;
-  -moz-border-bottom-left-radius: 0.2em;
-}
-navigation item a:hover {
-  background: #333;
-}
-navigation item.selected a {
-  background: #444;
-  color: #F9F9F9;
-  display: inline-block;
-  font-size: 1.2em;
-  padding: 0.4em;
-  text-decoration: none;
-  background: #333;
-}
-section {
-  border-bottom: 0.4em solid #0088ff;
-  margin: 0.6em 0 0 0;
-  padding: 0.4em;
-}
-#button section#just-giving {
-  border: 0.2em solid #0088ff;
-  padding: 0.2em 0.6em;
-  border-radius: 0.6em;
-  -moz-border-radius: 0.6em;
-}
-#button section#badge {
-  border: none;
-}
-section#profile img, section#supporters article img {
-  display: inline;
-}
-section#profile .bio, section#supporters article .bio {
-  display: inline-block;
-  width: 50%;
-}
-section#tweets article, section#latest article {
-  background: #ccffff;
-  margin-bottom: 0.4em;
-  padding: 0.4em;
-  border-radius: 0.4em;
-  -moz-border-radius: 0.4em;
-}
-section#tweets article img, section#latest article img {
-  display: inline;
-}
-section#tweets article p, section#latest article p {
-  display: inline;
-}
-code {
-  background: #eeeeee;
-  display: block;
-  padding: 0.8em;
-  border-radius: 0.6em;
-  -moz-border-radius: 0.6em;
-}
-input {
-  border: 0.1em solid #0088ff;
-  padding: 0.2em;
-  font-family: helvetica;
-  font-size: 1.2em;
-  border-radius: 0.4em;
-  -moz-border-radius: 0.4em;
-}
-input.text {
-  width: 5em;
-}
-button {
-  color: #000;
-  font-size: 1.4em;
-  font-weight: bold;
-  padding: 0.2em 0;
-  font-family: helvetica;
-  background: #0088ff;
-  border: none;
-  font-size: 1em;
-  padding: 0.4em;
-  border-radius: 0.4em;
-  -moz-border-radius: 0.4em;
-}
-button:active {
-  color: #FFF;
-}
-.hidden {
-  display: none;
-}
+*{margin:0;padding:0;}
+.button{font-family:helvetica;}
+h1{color:#FFF;font-size:1.8em;font-weight:bold;padding:0.4em 0.6em;text-shadow:0.1em 0.1em #04F;}
+h2{color:#000;font-size:1.4em;font-weight:bold;padding:0.2em 0;}
+body{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#00ffff), to(#ffffff));background:-webkit-linear-gradient(top, #ffffff, #00ffff);background:-moz-linear-gradient(top, #ffffff, #00ffff);background:-ms-linear-gradient(top, #ffffff, #00ffff);background:-o-linear-gradient(top, #ffffff, #00ffff);font-family:helvetica;}
+body#button{background:none;}
+#content{background:#ffffff;margin:0 auto;width:90%;}
+header{background:#0088ff;margin:0 auto;position:relative;width:90%;}
+header img{position:absolute;top:10px;right:20px;}
+navigation{display:block;}navigation item a{background:#444;color:#F9F9F9;display:inline-block;font-size:1.2em;padding:0.4em;text-decoration:none;border-bottom-right-radius:0.2em;-moz-border-bottom-right-radius:0.2em;border-bottom-left-radius:0.2em;-moz-border-bottom-left-radius:0.2em;}
+navigation item a:hover{background:#333;}
+navigation item.selected a{background:#444;color:#F9F9F9;display:inline-block;font-size:1.2em;padding:0.4em;text-decoration:none;background:#333;}
+section{border-bottom:0.4em solid #0088ff;margin:0.6em 0 0 0;padding:0.4em;}
+#button section#just-giving{border:0.2em solid #0088ff;padding:0.2em 0.6em;border-radius:0.6em;-moz-border-radius:0.6em;}
+#button section#badge{border:none;}
+section#profile img,section#supporters article img{display:inline;}
+section#profile .bio,section#supporters article .bio{display:inline-block;width:50%;}
+section#tweets article,section#latest article{background:#ccffff;margin-bottom:0.4em;padding:0.4em;border-radius:0.4em;-moz-border-radius:0.4em;}section#tweets article img,section#latest article img{display:inline;}
+section#tweets article p,section#latest article p{display:inline;}
+code{background:#eeeeee;display:block;padding:0.8em;border-radius:0.6em;-moz-border-radius:0.6em;}
+input{border:0.1em solid #0088ff;padding:0.2em;font-family:helvetica;font-size:1.2em;border-radius:0.4em;-moz-border-radius:0.4em;}
+input.text{width:5em;}
+button{color:#000;font-size:1.4em;font-weight:bold;padding:0.2em 0;font-family:helvetica;background:#0088ff;border:none;font-size:1em;padding:0.4em;border-radius:0.4em;-moz-border-radius:0.4em;}
+button:active{color:#FFF;}
+.hidden{display:none;}

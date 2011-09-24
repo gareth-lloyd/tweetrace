@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>{% block head_title %}JustGivingThanks{% endblock %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}main.css" />
+    <script data-main="{{ STATIC_URL }}scripts/main" src="{{ STATIC_URL }}scripts/require-jquery.js"></script>
+</head>
+<body>
+    <body id="button">
+        <section id="badge">
+            <img src="{{ STATIC_URL }}{{ fundraiser_id }}-badge.png" height="140" width="140" />
+        </section>
+        <section id="just-giving">
+            <form id="just-give" action="{{ just_giving.sdi.url }}" method="">
+                <input type="hidden" name="charityId" value="{{ fundraiser_id.charity_id }}">
+                <input type="hidden" name="exitUrl" value="{% url fundraiser-page fundraiser_id %}">
+                <h2>Make a donation of £ <input class="text" type="text" name="amount" /> from <input type="text" value="Twitter Name" /> now at <button type="submit">Just Giving</button></h2>
+            </form>
+        </section>
+    </body>
+</body>
+</html>
