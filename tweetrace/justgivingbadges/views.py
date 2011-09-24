@@ -1,22 +1,18 @@
-import httplib, time, datetime
 import hashlib
 from oauth import oauth
-import json
 from tweepy.auth import OAuthHandler
+import json
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.models import User
-
 from django.core.urlresolvers import reverse
 
 from justgivingbadges.forms import FundRaiserRegistration
 from justgivingbadges.models import FundRaiserProfile
 
 from django.conf import settings
-
-CONNECTION = httplib.HTTPSConnection(getattr(settings, 'OAUTH_SERVER', 'twitter.com'))
 
 def _user_from_reg_form(form):
     email = form.cleaned_data['email']
@@ -30,6 +26,12 @@ def _profile_from_reg_form(form, user):
             user=user,
             jg_page_id=form.cleaned_data['jg_page'],
         )
+
+def home(request):
+    top_pages = []
+    return render_to_response('home.html',
+        {'top_pages': top_pages},
+        context_instance=RequestContext(request))
 
 def register(request):
     if request.method == 'POST':
@@ -86,10 +88,8 @@ def callback(request):
             {},
             context_instance=RequestContext(request))
 
-def temp(request):
-    if request.session.get('temp', None):
-        return HttpResponse('found')
-    else:
-        request.session['temp'] = True
-        return HttpResponse('not found')
+def fundraiser_page(request, fundraiser_id=None):
+    pass
 
+def supporter_page(request, fundraiser_id=None, supporter_id=None):
+    pass
