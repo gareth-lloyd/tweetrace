@@ -5,7 +5,7 @@
         <link type="text/css" rel="stylesheet" href="core.css" />
         <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
         <script type="text/javascript">
-                define('twitter:data',{'url':'justgivingthanks/feeder','getData':{'name':'{bob}','tag':'#lol'}});
+            define('twitter:data',{'url':'http://api.twitter.com/1/statuses/user_timeline.json','getData':{'screenName':'lanoid'}});
             require(['twitter'],function(twitter){});
         </script>
     </head>
@@ -21,7 +21,7 @@
             </navigation>
             
             <section id="just-giving">
-                <form action="" method="{sdi-url}{sdi-exit-url}">
+                <form action="{sdi-url}{sdi-exit-url}" method="">
                     <h2>Make a donation of £ <input class="text" type="text" /> now at <button type="submit">Just giving</button></h2>
                 </form>
             </section>
