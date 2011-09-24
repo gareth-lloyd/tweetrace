@@ -2,12 +2,22 @@
 
 {% block latest %}
 <section id="latest">
-    <h2>{{fundraiser_id.screen_name}}’s latest news</h2>
-    {% for tweet in twitter_feed %}
-        <article>
-            <a href="{% url supporter-page fundraiser_id tweet.screen_name %}"><img src="{{ tweet.img_url }}" height="80" width="80" /></a>
-            <p>{{ tweet.text }}</p>
-        </article>
-    {% endfor %}
+    {% if supporter_id %}
+        <h2>{{supporter_id.screen_name}}’s latest news</h2>
+        {% for tweet in supporter_id.twitter_feed %}
+            <article>
+                <a href="{% url supporter-page fundraiser_id tweet.screen_name %}"><img src="{{ tweet.img_url }}" height="80" width="80" /></a>
+                <p>{{ tweet.text }}</p>
+            </article>
+        {% endfor %}
+    {% else %}
+        <h2>{{fundraiser_id.screen_name}}’s latest news</h2>
+        {% for tweet in twitter_feed %}
+            <article>
+                <a href="{% url supporter-page fundraiser_id tweet.screen_name %}"><img src="{{ tweet.img_url }}" height="80" width="80" /></a>
+                <p>{{ tweet.text }}</p>
+            </article>
+        {% endfor %}
+    {% endif %}
 </section>
 {% endblock %}
