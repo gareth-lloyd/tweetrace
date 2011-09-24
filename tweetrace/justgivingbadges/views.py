@@ -81,7 +81,7 @@ def callback(request):
     profile.access_token_secret = access_token.secret
 
     return render_to_response('success.html',
-            {'form': form},
+            {},
             context_instance=RequestContext(request))
 
 def temp(request):
