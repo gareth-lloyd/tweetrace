@@ -16,6 +16,7 @@ define(['jquery'],function($){
             $('#just-giving').fadeToggle();
         },
         submit : function(){
+            
             alert('submit your moneys');
         }
     };

@@ -1,0 +1,9 @@
+{% extends /base.html %}
+
+{% block just-give %}
+<section id="just-giving">
+    <form action="{{ giving.sdi.url }}{{ fundraiser_id }}" method="">
+        <h2>Make a donation of £ <input class="text" type="text" /> now at <button type="submit">Just giving</button></h2>
+    </form>
+</section>
+{% endblock %}
