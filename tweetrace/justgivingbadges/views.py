@@ -39,7 +39,9 @@ def register(request):
             request.session['user_id'] = user.pk
 
             handler = OAuthHandler(settings.TWITTER_CONSUMER_KEY,
-                       settings.TWITTER_CONSUMER_SECRET, callback='http://www.justgivingthanks.com/callback/')
+                    settings.TWITTER_CONSUMER_SECRET, 
+                    callback='http://www.justgivingthanks.com/callback/',
+                    secure=True)
             auth_url = handler.get_authorization_url()
             request.session['unauthed_token'] = handler.request_token.to_string()
 
@@ -67,7 +69,8 @@ def callback(request):
         return HttpResponse("Something went wrong! Tokens do not match")
     verifier = request.GET.get('oauth_verifier')
     handler = OAuthHandler(settings.TWITTER_CONSUMER_KEY,
-               settings.TWITTER_CONSUMER_SECRET)
+               settings.TWITTER_CONSUMER_SECRET,
+               secure=True)
     access_token = handler.get_access_token(verifier)
 
     # save token against user
