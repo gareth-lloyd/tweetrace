@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" rel="stylesheet" href="core.css" />
+        <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
+        <script type="text/javascript">
+            require(['core'],function(core){
+                core.lol();
+            })
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>{Charity}’s Supporters - {Bob}</h1>
+            <img src="charity-badge.png" />
+        </header>
+        <div id="content">
+            <navigation>
+                <item><a href="home.html">{Charity}</a></item>
+                <item class="selected"><a href="#supporters">My Supporters</a></item>
+            </navigation>
+            
+            <section id="profile">
+                <img src="bob.jpg" />
+                <article class="bio">
+                    <h2>{Bob}</h2>
+                    <p>Andouille frankfurter chicken swine. Ball tip ham hock fatback meatball venison. Turkey pastrami meatball, ribeye bacon pork turducken ground round chuck capicola sausage tail biltong. Leberkäse chuck tongue filet mignon, short ribs brisket t-bone hamburger ham hock. Meatball kielbasa cow shankle corned beef, flank swine prosciutto spare ribs. Turducken jerky sausage, meatloaf corned beef rump biltong short loin prosciutto brisket pastrami. Beef ribs beef cow, biltong pork belly drumstick swine filet mignon tail.</p>
+                </article>
+            </section>
+            
+            <section id="tweets">
+                <h2>How Bob is supporting {Charity}</h2>
+                <article>
+                    <img src="bob.jpg" width="40px" height="40px" />
+                    <p>@{Charity} just told my mum about what you’re doing</p>
+                </article>
+                <article>
+                    <img src="bob.jpg" width="40px" height="40px" />
+                    <p>@Jeff has just added my button to their page @{Charity}</p>
+                </article>
+                <article>
+                    <img src="bob.jpg" width="40px" height="40px" />
+                    <p>@Mary has just added my button to their page @{Charity}</p>
+                </article>
+            </section>
+            
+            <section id="badge">
+                <h2>Help Bob help {Charity}</h2>
+                <p>copy and paste this:</p>
+                <code>my badge js link</code>
+            </section>
+            
+            <section id="supporters">
+                <h2>My Supporters</h2>
+                <ul>
+                    <li>
+                        <h3>Bob</h3>
+                        <p>Bob info/popularity</p>
+                    </li>
+                    <li>
+                        <h3>Jeff</h3>
+                        <p>Jeff info/popularity</p>
+                    </li>
+                    <li>
+                        <h3>Mary</h3>
+                        <p>Mary info/popularity</p>
+                    </li>
+                    <li>
+                        <h3>Jane</h3>
+                        <p>Jane info/popularity</p>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </body>
+</html>
