@@ -21,15 +21,19 @@
             <section id="sign-up">
                 <h2>To get started with Just Giving Thanks, we just need a little information</h2>
                 <form action="{sign-up}" method="">
-                    <label for="name">Your name:</label>
-                    <input type="text" name="name" />
-                    
-                    <label for="jg-id">Your just Giving Charity ID:</label>
-                    <input type="text" name="jg-id" />
-                    
-                    <label for="twitter-name">Your Twitter username:</label>
-                    <input type="text" name="twitter-name" />
-                    
+                    <dl>
+                        <dt><label for="twitter-username">Your Twitter username:</label></dt>
+                        <dd><input type="twitter-username" name="name" /></dd>
+                        
+                        <dt><label for="jg-password">Your Just Giving Password:</label></dt>
+                        <dd><input type="text" name="jg-password" /></dd>
+                        
+                        <dt><label for="jg-page">Your Just Giving page:</label></dt>
+                        <dd><input type="text" name="jg-page" /></dd>
+                        
+                        <dt><label for="email-address">Your email address:</label></dt>
+                        <dd><input type="text" name="email-address" /></dd>
+                    </dl>
                     <button type="submit">Sign me up!</button>
                 </form>
             </section>
