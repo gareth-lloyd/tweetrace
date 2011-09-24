@@ -26,7 +26,7 @@ class Mention(models.Model):
     result_from_twitter = PickledObjectField(null=True, blank=True)
 
 class FundRaisingPageStats(models.Model):
-    page_name = models.CharField(max_length=300, unique=True)
+    page_name = models.CharField(max_length=255, unique=True)
 
     facebook_likes = models.IntegerField(blank=True, null=True)
     facebook_shares = models.IntegerField(blank=True, null=True)
