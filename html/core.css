@@ -113,13 +113,16 @@ code {
   border-radius: 0.6em;
   -moz-border-radius: 0.6em;
 }
-input.text {
-  width: 5em;
+input {
   border: 0.1em solid #0088ff;
   padding: 0.2em;
+  font-family: helvetica;
   font-size: 1.2em;
   border-radius: 0.4em;
   -moz-border-radius: 0.4em;
+}
+input.text {
+  width: 5em;
 }
 button {
   color: #000;

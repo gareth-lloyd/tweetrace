@@ -1,6 +1,6 @@
 define(['jquery', 'core', 'mustache', 'twitter:data'], function($, core, mustache, data){
     init = function(){
-        console.log(data);
+        setInterval(twitter.controller.getFeed, 60000);
     };
     
     twitter = {
@@ -13,7 +13,7 @@ define(['jquery', 'core', 'mustache', 'twitter:data'], function($, core, mustach
         
         view : {
             updateFeed : function(feed){
-                
+                // console.log(feed);
             }
         }
     };
