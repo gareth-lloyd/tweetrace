@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" rel="stylesheet" href="core.css" />
+        <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
+        <script type="text/javascript">
+            require(['badge'],function(badge){});
+        </script>
+    </head>
+    <body id="button">
+        <section id="badge">
+            <img src="charity-badge.png" />
+        </section>
+        <section id="just-giving" class="hidden">
+            <form action="" method="{sdi-url}{sdi-exit-url}">
+                <h2>Make a donation of £ <input class="text" type="text" /> now at <button type="submit">Just Giving</button></h2>
+            </form>
+        </section>
+    </body>
+</html>

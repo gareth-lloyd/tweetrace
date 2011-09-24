@@ -1,0 +1,208 @@
+@white: #FFF;
+@light-blue: #0FF;
+@header-blue: #08F;
+@tweet-blue: #CFF;
+@light-grey: #EEE;
+@dark-grey-shadow: #333;
+
+*   {
+    margin: 0;
+    padding: 0;
+}
+
+.h1(){
+    color: #FFF;
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 0.4em 0.6em;
+    text-shadow: 0.1em 0.1em #04F;
+}
+
+.h2(){
+    color: #000;
+    font-size: 1.4em;
+    font-weight: bold;
+    padding: 0.2em 0;
+}
+
+.button{
+    font-family: helvetica;
+}
+
+.cta(){
+    
+}
+
+.navigation(){
+    background: #444;
+    color: #F9F9F9;
+    display: inline-block;
+    font-size: 1.2em;
+    padding: 0.4em;
+    text-decoration: none;
+}
+
+.navigation-hover(){
+    background: #333;
+}
+
+.gradient(@to:@light-blue, @from:@white){
+      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@to), to(@from));
+      background: -webkit-linear-gradient(top, @from, @to);
+      background: -moz-linear-gradient(top, @from, @to);
+      background: -ms-linear-gradient(top, @from, @to);
+      background: -o-linear-gradient(top, @from, @to);
+}
+
+.rounded(@radius:.2em){
+    border-radius: @radius;
+    -moz-border-radius: @radius;
+}
+
+.rounded-bottom(@radius:.2em){
+    border-bottom-right-radius: @radius;
+    -moz-border-bottom-right-radius: @radius;
+    border-bottom-left-radius: @radius;
+    -moz-border-bottom-left-radius: @radius;
+}
+
+.section(){
+    border-bottom: 0.4em solid @header-blue;
+    margin: 0.6em 0 0 0;
+    padding: 0.4em;
+}
+
+h1  {
+    .h1;
+}
+
+h2  {
+    .h2;
+}
+
+body    {
+    .gradient;
+    font-family: helvetica;
+}
+
+body#button {
+    background: none;
+}
+
+#content    {
+    background: @white;
+    margin: 0 auto;
+    width: 90%;
+}
+
+header  {
+    background: @header-blue;
+    margin: 0 auto;
+    position: relative;
+    width: 90%;
+}
+
+header img {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+navigation  {
+    display: block;
+    
+    item    {
+        a   {
+            .navigation;
+            .rounded-bottom;
+        }
+        a:hover {
+            .navigation-hover
+        }
+    }
+    
+    item.selected   {
+        a   {
+            .navigation;
+            .navigation-hover
+        }
+    }
+}
+
+section {
+    .section;
+}
+
+section#just-giving    {
+    
+}
+
+#button section#just-giving {
+    border: 0.2em solid @header-blue;
+    padding: 0.2em 0.6em;
+    .rounded(0.6em);
+}
+
+#button section#badge {
+    border: none;
+}
+
+section#profile {
+    
+    img {
+        display: inline;
+    }
+    .bio    {
+        display: inline-block;
+        width: 50%;
+    }
+}
+
+section#tweets,
+section#latest  {
+    article {
+        background: @tweet-blue;
+        margin-bottom: 0.4em;
+        padding: 0.4em;
+        .rounded(.4em);
+        img {
+            display: inline;
+        }
+        p   {
+            display: inline;
+        }
+    }
+}
+
+code    {
+    background: @light-grey;
+    display: block;
+    padding: 0.8em;
+    .rounded(0.6em);
+}
+
+input.text  {
+    width: 5em;
+    border: 0.1em solid @header-blue;
+    padding: 0.2em;
+    font-size: 1.2em;
+    .rounded(.4em);
+}
+
+button    {
+    .h2;
+    .button;
+    background: @header-blue;
+    border:none;
+    font-size: 1em;
+    padding: 0.4em;
+    .rounded(.4em);
+}
+
+button:active {
+    color: #FFF;
+}
+
+.hidden {
+    display: none;
+}
