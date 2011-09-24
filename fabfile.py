@@ -22,7 +22,9 @@ def bootstrap_instance():
 
 def update():
     sync_config()
-    sudo('chef-solo -c %s/solo.rb' % env.chef_dir)
+    sudo('chef-solo -c %s/solo.rb' % env.chef_dir, user=env.user)
+    with cd('/srv/tweetrace'):
+        sudo('git pull origin master', user=env.user)
 
 def sync_config():
     # create /var/chef if not already existing
@@ -31,8 +33,6 @@ def sync_config():
             sudo('mkdir %s' % env.chef_dir)
             sudo('chown %s %s' % (env.user, env.chef_dir))
             sudo('chgrp %s %s' % (env.user, env.chef_dir))
-
-    create_chef_attrs()
 
     # sync ./chef with remote chef_dir
     with lcd('chef'):
