@@ -10,6 +10,6 @@ urlpatterns = patterns('',
     url(r'^$', home, name='home-page'),
     url(r'^fundraiser/(?P<fundraiser_id>\w+)/$',
         fundraiser_page, name='fundraiser-page'),
-    url(r'^fundraiser/(?P<fundraiser_id>\w+)/supporter/(?P<supporter_id>\w+)/$',
+    url(r'^fundraiser/(?P<fundraiser_id>\w+)/supporter/(?P<supporter_name>\w+)/$',
         supporter_page, name='supporter-page'),
 )

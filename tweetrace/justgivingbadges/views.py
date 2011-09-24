@@ -12,6 +12,8 @@ from django.core.urlresolvers import reverse
 from justgivingbadges.forms import FundRaiserRegistration
 from justgivingbadges.models import FundRaiserProfile
 
+from linkwatcher.models import Mention, TwitterUser
+
 from django.conf import settings
 
 def _user_from_reg_form(form):
@@ -53,7 +55,7 @@ def register(request):
 
             request.session['user_id'] = user.pk
             handler = OAuthHandler(settings.TWITTER_CONSUMER_KEY,
-                    settings.TWITTER_CONSUMER_SECRET, 
+                    settings.TWITTER_CONSUMER_SECRET,
                     callback='http://www.justgivingthanks.com/callback/',
                     secure=True)
             auth_url = handler.get_authorization_url()
@@ -92,7 +94,26 @@ def callback(request):
             context_instance=RequestContext(request))
 
 def fundraiser_page(request, fundraiser_id=None):
-    pass
+    profile = get_object_or_404(FundRaiserProfile, pk=fundraiser_id)
+    my_page = request.user.is_authenticated() and profile.user == request.user
 
-def supporter_page(request, fundraiser_id=None, supporter_id=None):
-    pass
+    mentions = Mention.objects.select_related('tweeter').filter(link=profile)
+
+    return render_to_response('supporters.html',
+            {'fundraiser': profile,
+             'mentions': mentions,
+             'my_page': my_page},
+            context_instance=RequestContext(request))
+
+def supporter_page(request, fundraiser_id=None, supporter_name=None):
+    profile = get_object_or_404(FundRaiserProfile, pk=fundraiser_id)
+    my_page = request.user.is_authenticated() and profile.user == request.user
+
+    supporter = TwitterUser.objects.get(screen_name=supporter_name)
+    mentions = Mention.objects.filter(tweeter=supporter, link=profile)
+
+    return render_to_response('supporter.html',
+            {'fundraiser': profile,
+             'mentions': mentions,
+             'my_page': my_page},
+            context_instance=RequestContext(request))

@@ -1,5 +1,6 @@
 from django.db import models
 from picklefield import PickledObjectField
+from justgivingbadges.models import FundRaiserProfile
 
 
 class TwitterUser(models.Model):
@@ -17,7 +18,7 @@ class TwitterUser(models.Model):
 
 
 class Mention(models.Model):
-    link = models.CharField(max_length=300)
+    link = models.ForeignKey(FundRaiserProfile)
     when = models.DateTimeField()
     text = models.CharField(max_length=200)
     tweeter = models.ForeignKey(TwitterUser)
@@ -26,7 +27,7 @@ class Mention(models.Model):
     result_from_twitter = PickledObjectField(null=True, blank=True)
 
 class FundRaisingPageStats(models.Model):
-    page_name = models.CharField(max_length=255, unique=True)
+    fundraiser = models.ForeignKey(FundRaiserProfile, null=True, blank=True, default=None)
     result_from_jg = PickledObjectField(null=True, blank=True)
 
 
