@@ -1,0 +1,10 @@
+#!/bin/bash
+ADDRESS=$1
+: ${ADDRESS:="127.0.0.1:8000"}
+
+gunicorn_django --log-file=/tmp/gunicorn.log --log-level=debug --bind=$ADDRESS -t 600 &
+gunicorn_pid=$!
+echo "Gunicorn started with pid: $gunicorn_pid"
+
+touch /tmp/gunicorn.log
+tail -f /tmp/gunicorn.log

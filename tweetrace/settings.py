@@ -1,4 +1,4 @@
-# Django settings for givingrace project.
+# Django settings for tweetrace project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'givingrace',                      # Or path to database file if using sqlite3.
+        'NAME': 'tweetrace',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -100,7 +100,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'givingrace.urls'
+ROOT_URLCONF = 'tweetrace.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -115,12 +115,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admin',
     'linkwatcher',
     'justgiving_api',
+    'justgivingbadges',
     'south',
 )
 
@@ -147,4 +145,5 @@ LOGGING = {
     }
 }
 
+AUTH_PROFILE_MODULE = 'justgivingbadges.FundRaiserProfile'
 from local_settings import *

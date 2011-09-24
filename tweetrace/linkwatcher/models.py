@@ -27,8 +27,6 @@ class Mention(models.Model):
 
 class FundRaisingPageStats(models.Model):
     page_name = models.CharField(max_length=255, unique=True)
+    result_from_jg = PickledObjectField(null=True, blank=True)
 
-    facebook_likes = models.IntegerField(blank=True, null=True)
-    facebook_shares = models.IntegerField(blank=True, null=True)
-    facebook_comments = models.IntegerField(blank=True, null=True)
-    last_facebook_check = models.DateTimeField(blank=True, null=True)
+
