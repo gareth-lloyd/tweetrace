@@ -71,6 +71,7 @@ def callback(request):
     handler = OAuthHandler(settings.TWITTER_CONSUMER_KEY,
                settings.TWITTER_CONSUMER_SECRET,
                secure=True)
+    handler.request_token = token
     access_token = handler.get_access_token(verifier)
 
     # save token against user
