@@ -123,9 +123,8 @@ def callback(request):
     profile.access_token_secret = access_token.secret
     profile.save()
 
-    return render_to_response('success.html',
-            {},
-            context_instance=RequestContext(request))
+    redirect = reverse('fundraiser-page', kwargs={'fundraiser_id': profile.jg_profile_id})
+    return HttpResponseRedirect(redirect)
 
 def fundraiser_page(request, fundraiser_id=None):
     profile = get_object_or_404(FundRaiserProfile, pk=fundraiser_id)
@@ -134,7 +133,6 @@ def fundraiser_page(request, fundraiser_id=None):
 
     mentions = Mention.objects.select_related('tweeter').filter(
         link=profile).order_by('-when')
-    print mentions
     uids = [m.tweeter.uid for m in mentions]
     top_supporters = TwitterUser.objects.filter(uid__in=uids).order_by('-followers')[:5]
 

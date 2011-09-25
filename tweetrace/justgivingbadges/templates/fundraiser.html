@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+    <h2>{{ fundraiser.owner_name }} is raising money for {{ fundraiser.event_name}}</h2>
+
     <section id="recent_mentions">
         <h2>Recent Support</h2>
         {% for mention in recent_mentions %}

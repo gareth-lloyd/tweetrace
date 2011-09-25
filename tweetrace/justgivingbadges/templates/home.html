@@ -2,13 +2,16 @@
 
 {% block content %}
 
-    {% if logged_in_fundraiser %}
-        {% include "just_give.html" %}
+    {% if not fundraiser %}
+        <div id="register">
+            <h3>Link your Twitter Account and start connecting with your supporters!</h3>
+            <a href="{% url register %}">Sign up</a>
+        </div>
     {% endif %}
-    
-    {% include "badge.html" %}
 
+    
     <section id="top_fundraisers">
+        <h3>Most successful social fundraisers</h3>
         <p>These fundraisers have been most successful at raising support through social networks:</p>
         {% for fundraiser in top_fundraisers %}
                 {% include "fundraiser_snippet.html" %}
