@@ -1,17 +1,18 @@
-{% extends /base.html %}
+{% extends "base.html" %}
+
+fundraiser
+supporter
 
 {% block content %}
-    
-    {% block profile %}
-        
-    {% endblock %}
-    
-    {% block latest %}
-        
-    {% endblock %}
-    
-    {% block badge %}
-    
-    {% endblock %}
-    
+    <img src="{{ STATIC_URL }}{{sticker.image_url}}" />
+    <h3>{{supporter.screen_name}} has been supporting {{ fundraiser.owner_name}}!</h3>
+    <br />
+    <br />
+    {% if supporter_mentions %}
+        {% for mention in supporter_mentions %}
+            {% include "mention_snippet.html" %}
+        {% endfor %}
+    {% endif %}
+
+    {% include "give_form.html" %}
 {% endblock %}

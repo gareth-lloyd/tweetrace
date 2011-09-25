@@ -9,6 +9,7 @@ class TwitterUser(models.Model):
     profile_picture = models.URLField(max_length=1000)
     followers       = models.IntegerField()
     description     = models.TextField(blank=True, default=None, null=True)
+    has_donated = models.BooleanField(default=False)
 
     def json_object(self):
         return {'id': self.uid,

@@ -17,6 +17,16 @@ from linkwatcher.models import Mention, TwitterUser, FundRaisingPageStats
 
 from django.conf import settings
 
+class Sticker(object):
+    def __init__(self, image_url, name):
+        self.name = name
+        self.image_url = image_url
+    def __unicode__(self):
+        return self.name
+GOLD = Sticker('/img/gold_sticker_small.png', 'gold')
+SILVER = Sticker('/img/silver_sticker_small.png', 'silver')
+BRONZE = Sticker('/img/bronze_sticker_small.png', 'bronze')
+
 def return_json(view):
     def wrapper(request, *args, **kwargs):
         try:
@@ -145,15 +155,24 @@ def fundraiser_page(request, fundraiser_id=None):
 
 def supporter_page(request, fundraiser_id=None, supporter_name=None):
     profile = get_object_or_404(FundRaiserProfile, pk=fundraiser_id)
+    _extend_profile(profile)
     my_page = request.user.is_authenticated() and profile.user == request.user
 
     supporter = TwitterUser.objects.get(screen_name=supporter_name)
-    mentions = Mention.objects.filter(tweeter=supporter, link=profile)
+    mentions = Mention.objects.filter(tweeter=supporter, link=profile).order_by('-when')
+
+    sticker = BRONZE
+    if len(mentions) > 1:
+        sticker = SILVER
+    if supporter.has_donated:
+        sticker = GOLD
 
     return render_to_response('supporter.html',
             {'fundraiser': profile,
-             'mentions': mentions,
-             'my_page': my_page},
+             'supporter': supporter,
+             'supporter_mentions': mentions,
+             'my_page': my_page,
+             'sticker': sticker},
             context_instance=RequestContext(request))
 
 @return_json

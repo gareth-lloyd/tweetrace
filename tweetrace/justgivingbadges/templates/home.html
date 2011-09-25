@@ -3,16 +3,21 @@
 {% block content %}
 
     {% if not fundraiser %}
+        <br />
+        <br />
         <div id="register">
             <h3>Link your Twitter Account and start connecting with your supporters!</h3>
             <a href="{% url register %}">Sign up</a>
         </div>
+        <br />
+        <br />
     {% endif %}
 
     
     <section id="top_fundraisers">
         <h3>Most successful social fundraisers</h3>
         <p>These fundraisers have been most successful at raising support through social networks:</p>
+        <br />
         {% for fundraiser in top_fundraisers %}
                 {% include "fundraiser_snippet.html" %}
         {% endfor %}

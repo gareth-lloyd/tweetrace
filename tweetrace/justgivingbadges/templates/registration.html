@@ -5,17 +5,33 @@
     <p class="error">Sorry, something went wrong</p>
   {% endif %}
 
+  <p> 
+    To connect you with your supporters on social networks, you will also need a valid JustGiving
+    page. Additionally, we need your email and JustGiving Password in order to link up with your
+    JustGiving account. Sorry about this - it's currently the only way to get access to the 
+    JustGiving API.
+    <br />
+    <br />
+    Once you've entered this information, you will be sent off to Twitter to connect your account.
+    <br />
+    <br />
+    <br />
+
+
   <form action="" method="post">
     {% csrf_token %}
     <dl>
         <dt><label for="id_email">Your email address:</label></dt>
         <dd><input type="text" name="email" id="id_email" /></dd>
+        <br />
         
         <dt><label for="id_jg_page">Your JustGiving Page:</label></dt>
         <dd><input type="text" name="jg_page" id="id_jg_page" /></dd>
         
+        <br />
         <dt><label for="id_jg_password">Your JustGiving Password:</label></dt>
         <dd><input type="password" name="jg_password" id="id_jg_password" /></dd>
+        <br />
     </dl>
     
     <input type="submit" value="Connect with Twitter" />

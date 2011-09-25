@@ -4,6 +4,13 @@
 
     <h2>{{ fundraiser.owner_name }} is raising money for {{ fundraiser.event_name}}</h2>
 
+    <section id="top_supporters">
+        <h2>{{fundraiser.owner_name}}’s Top Supporters</h2>
+        {% for supporter in top_supporters %}
+            {% include "supporter_snippet.html" %}
+        {% endfor %}
+    </section>
+    
     <section id="recent_mentions">
         <h2>Recent Support</h2>
         {% for mention in recent_mentions %}
@@ -11,10 +18,4 @@
         {% endfor %}
     </section>
 
-    <section id="top_supporters">
-        <h2>{{fundraiser.owner_name}}’s Top Supporters</h2>
-        {% for supporter in top_supporters %}
-            {% include "supporter_snippet.html" %}
-        {% endfor %}
-    </section>
 {% endblock %}

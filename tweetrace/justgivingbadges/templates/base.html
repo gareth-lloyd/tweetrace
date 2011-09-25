@@ -6,8 +6,11 @@
 </head>
 <body>
     <header>
-        <h1> JustGivingThanks</h1>
+    <h1><a href="/">JustGivingThanks</a></h1>
         <p>Boost your Fundraising with your social network</p>
+        {% if not supporter %}
+        <img id="header-image" src="{{ STATIC_URL }}/img/gold_sticker_small.png" />
+        {% endif %}
     </header>
 
     <div id="content">

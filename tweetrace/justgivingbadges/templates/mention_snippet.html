@@ -1,4 +1,5 @@
 <div class="mention">
-    <a href="http://twitter.com/{{ mention.tweeter.screen_name }}"><img src="{{ mention.tweeter.profile_picture }}" /></a>
+    <a href="{% url supporter-page fundraiser.jg_page_id mention.tweeter.screen_name %}"><img src="{{ mention.tweeter.profile_picture }}" /></a>
+    <h4>{{mention.tweeter.screen_name}}</h4>
     <p>{{mention.text}}</p>
 </div>
