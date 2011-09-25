@@ -23,7 +23,8 @@ def _headers(username=None, password=None, content_type=False):
     if content_type:
         headers.update({'Content-Type': content_type})
     if username:
-        headers.update(_basic_auth_header(username, password)
+        headers.update(_basic_auth_header(username, password))
+    return headers
 
 def _post(url, data, username=None, password=None):
     headers = _headers(username, password)
