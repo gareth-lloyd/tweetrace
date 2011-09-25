@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.utils.functional import wraps
 
 from justgivingbadges.forms import FundRaiserRegistration
 from justgivingbadges.models import FundRaiserProfile
@@ -15,6 +16,18 @@ from justgivingbadges.models import FundRaiserProfile
 from linkwatcher.models import Mention, TwitterUser
 
 from django.conf import settings
+
+def return_json(view):
+    def wrapper(request, *args, **kwargs):
+        try:
+            data = view(request, *args, **kwargs)
+            status = 200
+        except Exception, e:
+            data = {'error': str(e)}
+            status = 400
+        json_str = json.dumps(data, cls=JustGivingBadgesJSONEncoder)
+        return HttpResponse(json_str, mimetype='application/json', status=status)
+    return wraps(view)(wrapper)
 
 def _user_from_reg_form(form):
     email = form.cleaned_data['email']
@@ -26,7 +39,7 @@ def _user_from_reg_form(form):
 def _profile_from_reg_form(form, user):
     profile, created = FundRaiserProfile.objects.get_or_create(
             jg_page_id=form.cleaned_data['jg_page'],
-            defaults={user: user}
+            defaults={'user': user}
         )
     if not created:
         if profile.user is None:
@@ -117,3 +130,19 @@ def supporter_page(request, fundraiser_id=None, supporter_name=None):
              'mentions': mentions,
              'my_page': my_page},
             context_instance=RequestContext(request))
+
+@return_json
+def top_fundraisers(request):
+    return list(FundRaiserProfile.objects.order_by('-page_score')[:3])
+
+class JustGivingBadgesJSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, FundRaiserProfile):
+            return {
+                'page_id': o.jg_page_id,
+                'page_score': o.page_score
+            }
+        elif isinstance(o, date):
+            return o.isoformat()
+        else:
+            return json.JSONEncoder.default(self, o)
