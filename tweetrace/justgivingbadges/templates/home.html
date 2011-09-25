@@ -1,27 +1,18 @@
-{% extends /base.html %}
+{% extends "base.html" %}
 
 {% block content %}
-    {% block just-give %}
-        <section id="">
-        </section>
-    {% endblock %}
+
+    {% if logged_in_fundraiser %}
+        {% include "just_give.html" %}
+    {% endif %}
     
-    {% block latest %}
-        <section id="latest">
-            <h2>Latest News</h2>
-            <p>You have no news :(</p>
-        </section>
-    {% endblock %}
+    {% include "badge.html" %}
+
+    <section id="top_fundraisers">
+        <p>These fundraisers have been most successful at raising support through social networks:</p>
+        {% for fundraiser in top_fundraisers %}
+                {% include "fundraiser_snippet.html" %}
+        {% endfor %}
+    </section>
     
-    {% block badge %}
-        <section id="badge">
-            <h2>Get a badge</h2>
-        </section>
-    {% endblock %}
-    
-    {% block supporters %}
-        <section id="supporters">
-            <h2>Supporters</h2>
-        </section>
-    {% endblock %}
 {% endblock %}

@@ -4,7 +4,7 @@ from tweepy.auth import OAuthHandler
 import json
 
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -13,7 +13,7 @@ from django.utils.functional import wraps
 from justgivingbadges.forms import FundRaiserRegistration
 from justgivingbadges.models import FundRaiserProfile
 
-from linkwatcher.models import Mention, TwitterUser
+from linkwatcher.models import Mention, TwitterUser, FundRaisingPageStats
 
 from django.conf import settings
 
@@ -49,10 +49,30 @@ def _profile_from_reg_form(form, user):
             raise ValueError
     return profile
 
+def _top_fundraisers():
+    fundraisers = list(FundRaiserProfile.objects.order_by('-page_score')[:3])
+    for fundraiser in fundraisers:
+        _extend_profile(fundraiser)
+    return fundraisers
+
+def _extend_profile(fundraiser):
+    try:
+        stats = FundRaisingPageStats.objects.get(fundraiser=fundraiser)
+        fundraiser.event_name = stats.result_from_jg['eventName']
+        fundraiser.owner_name = stats.result_from_jg['owner']
+        fundraiser.total_raised = stats.result_from_jg['totalRaisedOnline']
+    except FundRaisingPageStats.DoesNotExist:
+        fundraiser.event_name, fundraiser.owner_name, fundraiser.total_raised = ('', '', '')
+
 def home(request):
-    top_pages = []
+    fundraiser = None
+    if request.user.is_authenticated():
+        fundraiser = _extend_profile(request.user.get_profile())
+    top_fundraisers = _top_fundraisers()
+
     return render_to_response('home.html',
-        {'top_pages': top_pages},
+        {'fundraiser': fundraiser,
+         'top_fundraisers': top_fundraisers},
         context_instance=RequestContext(request))
 
 def register(request):
@@ -109,13 +129,19 @@ def callback(request):
 
 def fundraiser_page(request, fundraiser_id=None):
     profile = get_object_or_404(FundRaiserProfile, pk=fundraiser_id)
+    _extend_profile(profile)
     my_page = request.user.is_authenticated() and profile.user == request.user
 
-    mentions = Mention.objects.select_related('tweeter').filter(link=profile)
+    mentions = Mention.objects.select_related('tweeter').filter(
+        link=profile).order_by('-when')
+    print mentions
+    uids = [m.tweeter.uid for m in mentions]
+    top_supporters = TwitterUser.objects.filter(uid__in=uids).order_by('-followers')[:5]
 
-    return render_to_response('supporters.html',
+    return render_to_response('fundraiser.html',
             {'fundraiser': profile,
-             'mentions': mentions,
+             'recent_mentions': mentions[:5],
+             'top_supporters': top_supporters,
              'my_page': my_page},
             context_instance=RequestContext(request))
 
@@ -134,14 +160,17 @@ def supporter_page(request, fundraiser_id=None, supporter_name=None):
 
 @return_json
 def top_fundraisers(request):
-    return list(FundRaiserProfile.objects.order_by('-page_score')[:3])
+    return _top_fundraisers()
 
 class JustGivingBadgesJSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, FundRaiserProfile):
             return {
                 'page_id': o.jg_page_id,
-                'page_score': o.page_score
+                'page_score': o.page_score,
+                'event_name': o.event_name,
+                'total_raised': o.total_raised,
+                'owner_name': o.owner_name,
             }
         elif isinstance(o, date):
             return o.isoformat()

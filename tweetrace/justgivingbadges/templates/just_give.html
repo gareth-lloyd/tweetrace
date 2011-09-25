@@ -1,0 +1,9 @@
+{% block just_give %}
+<section id="just-giving">
+    <form action="{{ giving.sdi.url }}{{ fundraiser.jg_page_id }}" method="">
+        <input type="hidden" name="charityId" value="{{ fundraiser_id.jg_page_id }}">
+        <input type="hidden" name="exitUrl" value="{% url fundraiser-page fundraiser.jg_page_id %}">
+        <h2>Make a donation of £ <input class="text" type="text" name="amount" /> from <input type="text" value="Twitter Name" /> now at <button type="submit">Just Giving</button></h2>
+    </form>
+</section>
+{% endblock %}

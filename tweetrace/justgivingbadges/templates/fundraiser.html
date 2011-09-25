@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section id="recent_mentions">
+        <h2>Recent Support</h2>
+        {% for mention in recent_mentions %}
+            {% include "mention_snippet.html" %}
+        {% endfor %}
+    </section>
+
+    <section id="top_supporters">
+        <h2>{{fundraiser.owner_name}}’s Top Supporters</h2>
+        {% for supporter in top_supporters %}
+            {% include "supporter_snippet.html" %}
+        {% endfor %}
+    </section>
+{% endblock %}
