@@ -117,7 +117,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'linkwatcher',
-    'justgiving_api',
+    'api',
     'justgivingbadges',
     'south',
 )

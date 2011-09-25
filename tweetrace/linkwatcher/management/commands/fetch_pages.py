@@ -2,7 +2,7 @@ import re
 from django.core.management.base import NoArgsCommand
 from time import sleep
 from linkwatcher.models import FundRaisingPageStats, Mention
-from justgiving_api.api import fundraising_page
+from api.api import fundraising_page
 import urllib
 import urlparse
 
