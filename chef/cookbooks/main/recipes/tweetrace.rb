@@ -19,12 +19,14 @@ execute "virtualenv --no-site-packages tweetrace-venv" do
   creates "/srv/tweetrace-venv/bin/python"
 end
 
-## grab from repo
-#git "/srv/tweetrace" do
-#  repository "git@github.com:gareth-lloyd/tweetrace.git"
-#  revision "HEAD"
-#  action :sync
-#end
+# grab from repo
+git "/srv/tweetrace" do
+  repository "git@github.com:gareth-lloyd/tweetrace.git"
+  revision "HEAD"
+  action :sync
+  user node[:username]
+  group node[:group]
+end
 
 execute "/srv/tweetrace-venv/bin/pip install -r requirements.txt" do
   cwd "/srv/tweetrace"
@@ -49,7 +51,6 @@ template "/srv/tweetrace/linkwatch.pill" do
   owner node[:username]
   group node[:group]
 end
-
 
 #execute "bluepill_load" do
 #  command "bluepill load /srv/tweetrace/linkwatch.pill"

@@ -3,7 +3,6 @@
   "base_packages": ["git-core", "vim", "mysql-server", "libmysqlclient-dev", "nginx"],
   "ubuntu_python_packages": ["python-setuptools", "python-pip", "python-dev"],
   "pip_python_packages": {"virtualenv": "1.5.1"},
-  
   "username": "ubuntu",
   "group": "ubuntu"
 }
