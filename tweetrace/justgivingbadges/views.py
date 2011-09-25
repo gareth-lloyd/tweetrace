@@ -133,7 +133,7 @@ def callback(request):
     profile.access_token_secret = access_token.secret
     profile.save()
 
-    redirect = reverse('fundraiser-page', kwargs={'fundraiser_id': profile.jg_profile_id})
+    redirect = reverse('fundraiser-page', kwargs={'fundraiser_id': profile.jg_page_id})
     return HttpResponseRedirect(redirect)
 
 def fundraiser_page(request, fundraiser_id=None):
