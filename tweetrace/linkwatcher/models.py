@@ -17,7 +17,6 @@ class TwitterUser(models.Model):
             'followers': self.followers
         }
 
-
 class Mention(models.Model):
     link = models.ForeignKey(FundRaiserProfile)
     when = models.DateTimeField()
@@ -28,7 +27,7 @@ class Mention(models.Model):
     result_from_twitter = PickledObjectField(null=True, blank=True)
 
 class FundRaisingPageStats(models.Model):
-    fundraiser = models.ForeignKey(FundRaiserProfile, null=True, blank=True, default=None)
+    fundraiser = models.OneToOneField(FundRaiserProfile, null=True, blank=True, default=None)
     result_from_jg = PickledObjectField(null=True, blank=True)
 
 

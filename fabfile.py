@@ -23,8 +23,8 @@ def bootstrap_instance():
 def update():
     sync_config()
     sudo('chef-solo -c %s/solo.rb' % env.chef_dir, user=env.user)
-    with cd('/srv/tweetrace'):
-        sudo('git pull origin master', user=env.user)
+    with cd('/srv/tweetrace/tweetrace'):
+        sudo('./manage.py migrate', user=env.user)
 
 def sync_config():
     # create /var/chef if not already existing

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class FundRaiserProfile(models.Model):
-    page_id = models.CharField(max_length=200, primary_key=True)
+    jg_page_id = models.CharField(max_length=200, primary_key=True)
     user = models.OneToOneField(User, blank=True, null=True, default=None)
 
     twitter_id = models.BigIntegerField(null=True, blank=True)
