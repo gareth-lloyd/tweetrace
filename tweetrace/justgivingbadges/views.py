@@ -23,9 +23,9 @@ class Sticker(object):
         self.image_url = image_url
     def __unicode__(self):
         return self.name
-GOLD = Sticker('/img/gold_sticker_small.png', 'gold')
-SILVER = Sticker('/img/silver_sticker_small.png', 'silver')
-BRONZE = Sticker('/img/bronze_sticker_small.png', 'bronze')
+GOLD = Sticker('img/gold_sticker_small.png', 'gold')
+SILVER = Sticker('img/silver_sticker_small.png', 'silver')
+BRONZE = Sticker('img/bronze_sticker_small.png', 'bronze')
 
 def return_json(view):
     def wrapper(request, *args, **kwargs):
