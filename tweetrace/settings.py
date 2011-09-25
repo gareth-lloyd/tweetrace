@@ -146,4 +146,5 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'justgivingbadges.FundRaiserProfile'
+HOST = 'http://www.justgivingthanks.com'
 from local_settings import *

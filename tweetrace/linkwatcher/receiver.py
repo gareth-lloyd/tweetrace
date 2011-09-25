@@ -13,6 +13,7 @@ from justgivingbadges.models import FundRaiserProfile
 from justgivingbadges.forms import cleaned_page_id
 from justgivingbadges.score import _update_score
 
+LINK_PATTERN = re.compile(r"\b(w*\.?justgiving\.com/[\S]+)", flags=re.IGNORECASE|re.MULTILINE)
 JUST_GIVING_TRACK = ['justgiving']
 CONSUMER = oauth.OAuthConsumer(settings.TWITTER_CONSUMER_KEY,
                            settings.TWITTER_CONSUMER_SECRET)
@@ -21,7 +22,7 @@ TOKEN = oauth.OAuthToken(settings.TWITTER_APP_ACCESS_TOKEN,
 STREAM = Stream(CONSUMER, TOKEN)
 
 _MESSAGE = "@%s Thank you for supporting my fundraising! \
-You get a special sticker: %s'
+You get a special sticker: %s"
 
 def do_watch():
     d = STREAM.track(LinkReceiver(), JUST_GIVING_TRACK)
@@ -71,12 +72,12 @@ def page_id_from_obj(status):
     if link:
         return cleaned_page_id(link)
     else:
-        raise ValueError('no just giving link in', json_obj['text'])
+        raise ValueError('no just giving link in', status['text'])
 
 def thank_you_message(fundraiser, supporter):
     link = settings.HOST + reverse('supporter-page', kwargs={
             'fundraiser_id': fundraiser.jg_page_id,
-            'supporter_id': supporter.screen_name
+            'supporter_name': supporter.screen_name
         })
     return _MESSAGE % (supporter.screen_name, link)
 
@@ -84,7 +85,7 @@ def reply(fundraiser, supporter):
     handler = tweepy.OAuthHandler(settings.TWITTER_CONSUMER_KEY, 
                              settings.TWITTER_CONSUMER_SECRET)
     handler.set_access_token(fundraiser.access_token, 
-                             fundraiser.access_token_secret))
+                             fundraiser.access_token_secret)
     tweepy.API(handler).update_status(status=thank_you_message(
         fundraiser, supporter))
 
@@ -119,7 +120,7 @@ def _process_status(json_obj):
             result_from_twitter=json_obj)
 
         # if the mentioned page belongs to a registered user, @reply
-        if not created and fundraiser.access_token:
+        if not fundraiser_created and fundraiser.access_token:
             reply(fundraiser, user)
 
         # update page score

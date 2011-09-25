@@ -8,7 +8,7 @@ class TwitterUser(models.Model):
     screen_name     = models.CharField(max_length=20, db_index=True)
     profile_picture = models.URLField(max_length=1000)
     followers       = models.IntegerField()
-    description     = models.TextField(blank=True, default=None)
+    description     = models.TextField(blank=True, default=None, null=True)
 
     def json_object(self):
         return {'id': self.uid,
