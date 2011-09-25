@@ -4,11 +4,18 @@ fundraiser
 supporter
 
 {% block content %}
-    <img src="{{ STATIC_URL }}{{sticker.image_url}}" />
+    <div id="sticker">
+        {{ sticker }}
+        <img src="{{ STATIC_URL }}{{sticker.image_url}}" />
+    </div>
+    <br />
+    <br />
     <h3>{{supporter.screen_name}} has been supporting {{ fundraiser.owner_name}}!</h3>
     <br />
     <br />
     {% if supporter_mentions %}
+        <h3>Support:</h3>
+        <br />
         {% for mention in supporter_mentions %}
             {% include "mention_snippet.html" %}
         {% endfor %}
