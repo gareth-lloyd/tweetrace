@@ -97,10 +97,11 @@ def callback(request):
     access_token = handler.get_access_token(verifier)
 
     # save token against user
-    user = User.objects.get(id=request.session['user_id'])
+    user = User.objects.get(pk=request.session['user_id'])
     profile = user.get_profile()
     profile.access_token = access_token.key
     profile.access_token_secret = access_token.secret
+    profile.save()
 
     return render_to_response('success.html',
             {},
