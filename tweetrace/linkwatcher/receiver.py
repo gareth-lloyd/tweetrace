@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from linkwatcher.models import Mention, TwitterUser, FundRaisingPageStats
 from justgivingbadges.models import FundRaiserProfile
 from justgivingbadges.forms import cleaned_page_id
+from justgivingbadges.score import _update_score
 
 JUST_GIVING_TRACK = ['justgiving']
 CONSUMER = oauth.OAuthConsumer(settings.TWITTER_CONSUMER_KEY,
@@ -87,39 +88,51 @@ def reply(fundraiser, supporter):
     tweepy.API(handler).update_status(status=thank_you_message(
         fundraiser, supporter))
 
+def _process_status(json_obj):
+    try:
+        # get page id from link
+        page_id = page_id_from_obj(json_obj)
+
+        # get or create the fundraiser
+        fundraiser, fundraiser_created = FundRaiserProfile.objects.get_or_create(
+            jg_page_id=page_id)
+
+        # get or create the user that tweeted
+        status = tweepy.Status.parse(tweepy.api, json_obj)
+        user, _ = TwitterUser.objects.get_or_create(
+            uid=status.author.id,
+            defaults={
+                'screen_name': status.author.screen_name,
+                'followers': status.author.followers_count,
+                'description': status.author.description,
+                'profile_picture': status.author.profile_image_url}
+        )
+
+        # create the mention object 
+        Mention.objects.create(
+            link=fundraiser,
+            when=status.created_at,
+            text=status.text,
+            tweeter=user,
+            is_targeted=status.text.startswith('@'),
+            is_retweet=status.retweeted,
+            result_from_twitter=json_obj)
+
+        # if the mentioned page belongs to a registered user, @reply
+        if not created and fundraiser.access_token:
+            reply(fundraiser, user)
+
+        # update page score
+        _update_score(fundraiser)
+    except Exception, e:
+        print 'Exception', e
+
 class LinkReceiver(object):
     def __init__(self):
         self.reconnects = 0
 
     def status(self, json_obj):
-        try:
-            page_id = page_id_from_obj(json_obj)
-            profile, profile_created = FundRaiserProfile.objects.get_or_create(
-                jg_page_id=page_id)
-
-            status = tweepy.Status.parse(tweepy.api, json_obj)
-            user, _ = TwitterUser.objects.get_or_create(
-                uid=status.author.id,
-                defaults={
-                    'screen_name': status.author.screen_name,
-                    'followers': status.author.followers_count,
-                    'description': status.author.description,
-                    'profile_picture': status.author.profile_image_url}
-            )
-
-            Mention.objects.create(
-                link=profile,
-                when=status.created_at,
-                text=status.text,
-                tweeter=user,
-                is_targeted=status.text.startswith('@'),
-                is_retweet=status.retweeted,
-                result_from_twitter=json_obj)
-
-            if not created and profile.access_token:
-                reply(profile, user)
-        except Exception, e:
-            print 'Exception', e
+        reactor.callInThread(_process_status, json_obj)
 
     def rate_limitation(self, json_obj):
         print 'Encountered rate limitation notice from twitter: %s' % json_obj
