@@ -1,5 +1,7 @@
 PROLOGUE
+Who's up for a live load test?
 - show a justgiving link, ask everyone in the audience to tweet that link
+- My designer got a cold and went home last night, so I did my best with this.
 
 INTRO
 People sharing links to a JustGiving page on social networks gives a powerful
@@ -19,5 +21,9 @@ OUR PAGE
 - refresh show our new supporters.
 - post biggest leaders to JustGiving page
 
+FUTURE
+- Facebook integration
+- so much that you can do with this data, and this real time dynamic. 
 
 
+Code
