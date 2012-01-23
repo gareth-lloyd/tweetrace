@@ -1,0 +1,16 @@
+This was a quick django application put together for the Charity Hack Day in
+London, 2011. The idea was to get some interactivity going between people
+raising money on justgiving.com and people in their social networks, through
+which they spread awareness of their activities.
+
+It uses the Twitter Streaming API to watch for links to JustGiving pages. When
+a link is detected, a JustGiving user that has registered with this site (using
+Twitter OAuth) will automatically tweet back to award that supporter a 'badge'.
+
+Repeated mentions and donations will give progressively better badges to
+supporters.
+
+Fundraisers also get an awareness score based on how well they are doing at
+getting their campaign mentioned on Twitter.
+
+This project won a prize for best use of the JustGiving API.
